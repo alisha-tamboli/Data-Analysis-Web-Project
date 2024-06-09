@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+    <script>
+        function checkLoginAndRedirect() {
+            // Check if the user is logged in
+            if (!localStorage.getItem("loggedInUser")) {
+                alert("Login First!!!!!");
+                // window.location.href = "login.html"; // Redirect to the login page
+            } else {
+                alert("You are already logged in!");
+                // Code to access the feature can be added here
+            }
+        }
+        function logout() {
+            localStorage.removeItem("loggedInUser"); // Remove the logged-in user from localStorage
+            alert("Logout Successful!");
+            // window.location.href = "login.html"; // Redirect to the login page
+        }
+        
+    </script>
+    <style>
+        * {
+        box-sizing: border-box;
+        }
+        body, html {
+        height: 100%;
+        }
+        .bg-image {
+        /* The image used */
+        background-image: url("image.jpg");
+
+        /* Add the blur effect */
+        filter: blur(8px);
+        -webkit-filter: blur(2px);
+
+        /* Full height */
+        height: 228%;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size:cover;
+        
+        }
+
+        .bg-text {
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+        color: white;
+        font-weight: bold;
+        border: 3px solid #f1f1f1;
+        position: absolute;
+        top: 115%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        width: 80%;
+        padding: 20px;
+        text-align: center;
+        }
+   
+        .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        padding: 10px;
+        cursor: pointer;
+    }
+    
+    .nav-list {
+        width: 120%;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        list-style: none;
+    }
+
+        .nav-list li {
+        list-style: none;
+        padding: 26px 30px;
+        padding: 10px;
+    }
+
+    .nav-list li a {
+        text-decoration: none;
+        font-size: 19px;
+        color: whitesmoke;
+        
+    }
+
+    .nav-list li a:hover {
+        color: grey;
+        
+    }
+
+    .rightnav {
+        width: 30%;
+        text-align: right;
+    } 
+
+    .firstsection {
+        height: 400px;
+    }
+
+    .secondsection {
+        height: 400px;
+    }
+
+    .box-main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgb(245, 245, 245);
+        max-width: 80%;
+        margin: auto;
+        height: 50%;
+    }
+
+.firsthalf {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.secondhalf {
+    width: 30%;
+}
+
+.secondhalf img {
+    width: 60%;
+    border: 4px solid white;
+    border-radius: 150px;
+    /* display: block; */
+    margin: auto;
+}
+
+.text-big {
+    font-family: 'Piazzolla', serif;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+.text-small {
+    font-size: 18px;
+}
+ 
+    footer {
+        text-align: center;
+        padding: 15px;
+    }
+
+    .text-footer {
+    text-align: center;
+    padding: 30px 0;
+    font-family: 'Ubuntu', sans-serif;
+    display: flex;
+    justify-content: center;
+    color: white;
+    }
+
+    .button {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    background-color: #4CAF50;
+    width: 100%;
+    font-size: 16px;
+}
+.button2 {
+    padding: 15px;
+    border-radius: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    background-color: #4CAF50;
+    width: 25%;
+    font-size: 13px;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="bg-text">
+    <nav class="navbar background">
+        <div class="logo">
+            <img src="logo.jpg" 
+                 style="height: 100px;" 
+                 alt="Logo">
+        </div>
+        <ul class="nav-list">
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="#" target="_blank" onclick="checkLoginAndRedirect()">Data Upload</a></li>
+            <li><a href="#" target="_blank" onclick="checkLoginAndRedirect()">DataAnalysis</a></li>
+            <li><a href="#" target="_blank" onclick="checkLoginAndRedirect()">Result</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+            <li><button class="button"><a href="login.html" target="_blank">Login</a></button></li>
+            <li><button class="button"><a href="register.html" target="_blank">Registration</a></button> </li>
+        </ul>
+        </nav>
+
+        <div class = "div" style="  display: flex;
+        justify-content: center;
+        color: white; padding: 30px; font-size: 30px;" >
+            <h2>Welcome to my Data Analysis Web Project</h2>
+        </div>
+<br><br>
+        <section class="firstsection">
+            <div class="box-main">
+                <div class="firstHalf">
+                    <h1 class="text-big" 
+                        id="web">Introduction
+                      </h1>
+                    <p class="text-small">
+                        The Data Analysis Web Application Project is an innovative platform designed to transform raw data into actionable insights. This application provides users with tools to upload, clean, analyze, and visualize their data, enabling informed decision-making and strategic planning. With a user-friendly interface and robust functionality, the platform caters to users of varying technical expertise, from business analysts to data scientists.Overall, the Data Analysis Web Application Project aims to streamline the data analysis workflow, providing users with a powerful means to leverage their data for improved decision-making and strategic advantage.
+                    </p>
+    
+    
+                </div>
+            </div>
+        </section>
+<br><br>
+
+        <section class="secondsection">
+            <div class="box-main">
+                <div class="firstHalf">
+                    <h1 class="text-big" 
+                        id="program">
+                       Key Features
+                    </h1>
+                    <p class="text-small">
+                        <ol style="font-size: 20px;">
+                        <li><b>Secure Data Upload:</b> Easy and secure uploading of various data formats with immediate validation.</li>
+                        <li><b>Secure Data Upload:</b>
+                         Easy and secure uploading of various data formats with immediate validation.</li>
+                        <li><b>Secure Data Upload:</b>
+                        Data Cleaning and Preprocessing: Tools to handle missing values and data inconsistencies.</li>
+                        <li><b>Advanced Data Analysis: </b>
+                        Statistical tools, machine learning models, and real-time processing.</li>
+                        <li><b>Dynamic Data Visualization: </b>
+                        Interactive charts, customizable dashboards, and exportable visualizations.</li>
+                        <li><b>User Management: </b>
+                        Secure authentication, role-based access control, and admin functionalities.</li>
+                        <li><b>Data Integration: </b>
+                        Integration with external data sources and support for data merging.
+                        Scalability and Flexibility: Architecture to handle large datasets and support diverse data types.</li>
+                        <li><b>Reporting and Exporting:</b>
+                         Generate and export detailed reports in various formats.
+                        User-Friendly Interface: Intuitive design with guides and tutorials for all user levels.</li>
+                        <li><b>Real-Time Collaboration: </b>
+                        Collaborative features for team-based projects and shared dashboards.</li>
+                    </ol>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <footer class="background">
+            <p class="text-footer">
+                Copyright ©-All rights are reserved
+            </p>
+        </footer>
+
+        <button onclick="logout()" class="button2">Logout</button>
+    </div>
+</body>
+</html>
