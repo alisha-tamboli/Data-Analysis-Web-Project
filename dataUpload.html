@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to HTML tables</title>
+    <script>
+        function checkLogin() {
+            // Check if the user is logged in
+            if (!localStorage.getItem("loggedInUser")) {
+                alert("Login First!!!!!");
+                window.location.href = "login.html"; // Redirect to the login page
+            }
+        }
+
+        // Call checkLogin when the page loads
+        window.onload = checkLogin;
+    </script>
+    <style>
+         * {
+        box-sizing: border-box;
+        }
+
+        body{
+            /* background-color: aqua; */
+            padding: 10px;
+            margin: 10px;
+            border: 2px solid  #2aaf2e;
+        }
+        .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        padding: 10px;
+        cursor: pointer;
+    }
+    
+    .nav-list {
+        width: 120%;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        list-style: none;
+    }
+
+        .nav-list li {
+        list-style: none;
+        padding: 26px 30px;
+        padding: 10px;
+    }
+
+    .nav-list li a {
+        text-decoration: none;
+        font-size: 19px;
+        color:  #4CAF50;
+        
+    }
+
+    .nav-list li a:hover {
+        color:  #9ce29f;
+        
+    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn{
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        background-color: #4CAF50;
+        width: 35%;
+        font-size: 16px;
+        }
+        h1{
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar background">
+        <div class="logo">
+            <img src="logo.jpg" 
+                 style="height: 100px;" 
+                 alt="Logo">
+        </div>
+        <ul class="nav-list">
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="dataUpload.html" target="_blank">Data Upload</a></li>
+            <li><a href="Analysis.html" target="_blank">DataAnalysis</a></li>
+            <li><a href="Result.html" target="_blank">Result</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+            <li><button class="button"><a href="login.html" target="_blank">Login</a></button></li>
+            <li><button class="button"><a href="register.html" target="_blank">Registration</a></button> </li>
+        </ul>
+        </nav>
+
+    <h1>Data Upload Section</h1>
+    <input type="file" id="csvFileInput" accept=".csv" class="btn">
+    <div id="csvTable"></div>
+
+
+    <script>
+        document.getElementById('csvFileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    displayCSV(text);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function displayCSV(csvText) {
+            const rows = csvText.split('\n').filter(row => row.trim() !== '');
+            let table = '<table>';
+
+            rows.forEach((row, rowIndex) => {
+                const cols = row.split(',').map(col => col.trim());
+                if (rowIndex === 0) {
+                    table += '<thead><tr>';
+                    cols.forEach(col => {
+                        table += `<th>${col}</th>`;
+                    });
+                    table += '</tr></thead><tbody>';
+                } else {
+                    table += '<tr>';
+                    cols.forEach(col => {
+                        table += `<td>${col}</td>`;
+                    });
+                    table += '</tr>';
+                }
+            });
+            table += '</tbody></table>';
+            document.getElementById('csvTable').innerHTML = table;
+        }
+    </script>
+</body>
+</html>
