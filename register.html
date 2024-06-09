@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Registration Form</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f3f3f3;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+
+			.main {
+				background-color: #fff;
+				border-radius: 15px;
+				box-shadow: 0 0 20px
+					rgba(0, 0, 0, 0.2);
+				padding: 20px;
+				width: 300px;
+			}
+
+			.main h2 {
+				color: #4caf50;
+				margin-bottom: 20px;
+			}
+
+			label {
+				display: block;
+				margin-bottom: 5px;
+				color: #555;
+				font-weight: bold;
+			}
+
+			input[type="text"],
+			input[type="email"],
+			input[type="password"],
+			select {
+				width: 100%;
+				margin-bottom: 15px;
+				padding: 10px;
+				box-sizing: border-box;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+			}
+
+			/* .button[type="submit"] {
+				padding: 15px;
+				border-radius: 10px;
+				border: none;
+				background-color: #4caf50;
+				color: white;
+				cursor: pointer;
+				width: 100%;
+				font-size: 16px;
+			} */
+			.button {
+				padding: 15px;
+				border-radius: 10px;
+				margin-top: 15px;
+				margin-bottom: 15px;
+				border: none;
+				color: white;
+				cursor: pointer;
+				background-color: #4CAF50;
+				width: 50%;
+				font-size: 16px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="main">
+			<h2>Registration Form</h2>
+
+			<form action="/save" method="post" onsubmit="event.preventDefault(); register();">
+
+				<label for="fname"
+					>First Name:</label
+				>
+				<input
+					type="text"
+					id="fname"
+					name="fname"
+					required
+				/>
+
+				<label for="lname"
+					>Last Name:</label
+				>
+				<input
+					type="text"
+					id="lname"
+					name="lname"
+					required
+				/>
+
+				<label for="email">Email:</label>
+				<input
+					type="email"
+					id="email"
+					name="email"
+					required
+				/>
+
+				<label for="password"
+					>Password:</label
+				>
+				<input
+					type="password"
+					id="password"
+					name="password"
+					title="Password must contain at least one number, 
+						one alphabet, one symbol, and be at 
+						least 8 characters long"
+					required
+				/>
+
+				<label for ="repassword">
+				Confirm-Password:</label>
+
+				<input
+					type="password"
+					id="confpassword"
+					name="confpassword"
+					required
+				/>
+
+				<label for="mobile"
+					>Contact:</label
+				>
+				<input
+					type="text"
+					id="mobile"
+					name="mobile"
+					maxlength="10"
+					required
+				/>
+
+				<label for="gender"
+					>Gender:</label
+				>
+				<select
+					id="gender"
+					name="gender"
+					required
+				>
+					<option value="male">
+						Male
+					</option>
+					<option value="female">
+						Female
+					</option>
+					<option value="other">
+						Other
+					</option>
+				</select>
+
+				<!-- <button type="submit">
+					Submit 
+				</button> -->
+				<button type="submit" value="save" class="button">Submit</button> 
+			</form>
+		</div>
+
+		<script>
+			function validateEmail(email) {
+				const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+				return re.test(String(email).toLowerCase());
+			}
+	
+			function register() {
+				var fname = document.getElementById("fname").value;
+				var lname = document.getElementById("lname").value;
+				var email = document.getElementById("email").value;
+				var password = document.getElementById("password").value;
+	
+				if (fname === "" || lname === "" || email === "" || password === "") {
+					alert("All fields are required.");
+					return;
+				}
+	
+				if (!validateEmail(email)) {
+					alert("Invalid email format.");
+					return;
+				}
+	
+				var users = JSON.parse(localStorage.getItem("users") || "[]");
+	
+				for (var i = 0; i < users.length; i++) {
+					if (users[i].email === email) {
+						alert("Email is already registered.");
+						return;
+					}
+				}
+	
+				users.push({ fname: fname, lname: lname, email: email, password: password });
+				localStorage.setItem("users", JSON.stringify(users));
+				alert("Registration Successful!");
+				window.location.href = "login.html";
+			}
+		</script>
+	</body>
+</html>
