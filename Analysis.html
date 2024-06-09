@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Data Analysis</title>
+    <style>
+            .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        padding: 10px;
+        cursor: pointer;
+    }
+    
+    .nav-list {
+        width: 120%;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        list-style: none;
+    }
+
+        .nav-list li {
+        list-style: none;
+        padding: 26px 30px;
+        padding: 10px;
+    }
+
+    .nav-list li a {
+        text-decoration: none;
+        font-size: 19px;
+        color:  #4CAF50;
+        
+    }
+
+    .nav-list li a:hover {
+        color:  #9ce29f;
+        
+    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn{
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        background-color: #4CAF50;
+        width: 35%;
+        font-size: 16px;
+        }
+        h1{
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar background">
+        <div class="logo">
+            <img src="logo.jpg" 
+                 style="height: 100px;" 
+                 alt="Logo">
+        </div>
+        <ul class="nav-list">
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="dataUpload.html" target="_blank">Data Upload</a></li>
+            <li><a href="Analysis.html" target="_blank">DataAnalysis</a></li>
+            <li><a href="Result.html" target="_blank">Result</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+            <li><button class="button"><a href="login.html" target="_blank">Login</a></button></li>
+            <li><button class="button"><a href="register.html" target="_blank">Registration</a></button> </li>
+        </ul>
+        </nav>
+    <h1>CSV Data Analysis</h1>
+    <input type="file" id="csvFileInput" accept=".csv" class="btn">
+    <h2>Cleaned Data</h2>
+    <div id="cleanedDataTable"></div>
+    <h2>Summary Statistics</h2>
+    <div id="summary"></div>
+
+    <script>
+        document.getElementById('csvFileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    const data = parseCSV(text);
+                    const cleanedData = cleanData(data);
+                    displayTable(cleanedData, 'cleanedDataTable');
+                    displaySummary(cleanedData);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function parseCSV(text) {
+            const rows = text.split('\n').filter(row => row.trim() !== '');
+            const headers = rows[0].split(',').map(col => col.trim());
+            const data = rows.slice(1).map(row => {
+                const values = row.split(',').map(val => val.trim());
+                let obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = values[index];
+                });
+                return obj;
+            });
+            return { headers, data };
+        }
+
+        function cleanData(parsedData) {
+            const { headers, data } = parsedData;
+
+            // Remove duplicates
+            const uniqueData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);
+
+            // Handle missing values
+            const cleanedData = uniqueData.map(row => {
+                let cleanedRow = {};
+                headers.forEach(header => {
+                    cleanedRow[header] = row[header] || 'N/A';
+                });
+                return cleanedRow;
+            });
+
+            // Sort data (example: sort by the first header column)
+            cleanedData.sort((a, b) => {
+                if (a[headers[0]] < b[headers[0]]) return -1;
+                if (a[headers[0]] > b[headers[0]]) return 1;
+                return 0;
+            });
+
+            return { headers, data: cleanedData };
+        }
+
+        function displayTable(parsedData, elementId) {
+            const { headers, data } = parsedData;
+            let table = '<table><thead><tr>';
+            headers.forEach(header => table += `<th>${header}</th>`);
+            table += '</tr></thead><tbody>';
+            data.forEach(row => {
+                table += '<tr>';
+                headers.forEach(header => table += `<td>${row[header]}</td>`);
+                table += '</tr>';
+            });
+            table += '</tbody></table>';
+            document.getElementById(elementId).innerHTML = table;
+        }
+
+        function displaySummary(parsedData) {
+            const { headers, data } = parsedData;
+            let summary = '';
+
+            headers.forEach(header => {
+                const values = data.map(row => parseFloat(row[header])).filter(val => !isNaN(val));
+                if (values.length > 0) {
+                    const mean = values.reduce((a, b) => a + b, 0) / values.length;
+                    const median = values.sort((a, b) => a - b)[Math.floor(values.length / 2)];
+                    const mode = values.sort((a,b) =>
+                        values.filter(v => v===a).length
+                        - values.filter(v => v===b).length
+                    ).pop();
+
+                    summary += `<p><strong>${header}</strong><br>Mean: ${mean.toFixed(2)}<br>Median: ${median}<br>Mode: ${mode}</p>`;
+                }
+            });
+
+            document.getElementById('summary').innerHTML = summary;
+        }
+    </script>
+</body>
+</html>
